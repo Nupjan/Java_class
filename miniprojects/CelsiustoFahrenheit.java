@@ -1,4 +1,6 @@
-
+package Miniprojects;
+public class CelsiustoFahrenheit {
+    public static void main(String[] args) {
 
         int celsius = 28;
         int fahrenheit = 32 + (9 * celsius) / 5;
