@@ -1,3 +1,5 @@
+package Miniprojects;
+
 //********************************************************************
 // Grade.java Java Foundations
 // Represents a school grade.

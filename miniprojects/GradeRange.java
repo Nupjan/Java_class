@@ -1,7 +1,10 @@
+package Miniprojects;
 //********************************************************************
+
 // GradeRange.java Java Foundations
 // Demonstrates the use of an array of objects.
 //********************************************************************
+
 public class GradeRange {
     // -----------------------------------------------------------------
     // Creates an array of Grade objects and prints them.
