@@ -9,7 +9,7 @@ public class BasicArray {
         // Initialize the array values
         for (int index = 0; index < LIMIT; index++)
             list[index] = index * MULTIPLE;
-        ist[5] = 999; // change one array value
+        list[5] = 999; // change one array value
         // Print the array values
         for (int value : list)
             System.out.print(value + " ");
