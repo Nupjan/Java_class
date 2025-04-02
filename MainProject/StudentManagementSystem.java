@@ -1,104 +1,124 @@
 package MainProject;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class StudentManagementSystem {
-    private ArrayList<Student> students = new ArrayList<>();
-    private Scanner scanner = new Scanner(System.in);
+    private List<Student> students = new ArrayList<>();
+    private List<Unit> units = Unit.getUnits();
 
-    public void addStudent() {
-        System.out.print("Enter Student ID: ");
-        String studentID = scanner.nextLine();
-        System.out.print("Enter Name: ");
-        String name = scanner.nextLine();
-        System.out.print("Enter Major: ");
-        String major = scanner.nextLine();
-        System.out.print("Enter GPA: ");
-        double gpa = scanner.nextDouble();
-        scanner.nextLine();
-
-        students.add(new Student(studentID, name, major, gpa));
-        System.out.println("Student added successfully!");
+    public void addStudent(Student student) {
+        students.add(student);
     }
 
-    public void deleteStudent() {
-        System.out.print("Enter Student ID to delete: ");
-        String studentID = scanner.nextLine();
-        students.removeIf(student -> student.getStudentID().equals(studentID));
-        System.out.println("Student deleted successfully!");
+    public void deleteStudent(String studentID) {
+        students.removeIf(s -> s.getId().equals(studentID));
     }
 
-    public void updateStudent() {
-        System.out.print("Enter Student ID to update: ");
-        String studentID = scanner.nextLine();
+    public void updateStudent(String studentID, String name, double gpa) {
         for (Student student : students) {
-            if (student.getStudentID().equals(studentID)) {
-                System.out.print("Enter new Name: ");
-                student.setName(scanner.nextLine());
-                System.out.print("Enter new Major: ");
-                student.setMajor(scanner.nextLine());
-                System.out.print("Enter new GPA: ");
-                student.setGpa(scanner.nextDouble());
-                scanner.nextLine(); // Consume newline
-                System.out.println("Student updated successfully!");
-                return;
-            }
-        }
-        System.out.println("Student not found!");
-    }
-
-    public void lookupStudent() {
-        System.out.print("Enter Student ID to lookup: ");
-        String studentID = scanner.nextLine();
-        for (Student student : students) {
-            if (student.getStudentID().equals(studentID)) {
-                System.out.println("Student ID: " + student.getStudentID());
-                System.out.println("Name: " + student.getName());
-                System.out.println("Major: " + student.getMajor());
-                System.out.println("GPA: " + student.getGpa());
-                return;
-            }
-        }
-        System.out.println("Student not found!");
-    }
-
-    public void displayMenu() {
-        while (true) {
-            System.out.println("\nStudent Management System");
-            System.out.println("1. Add Student");
-            System.out.println("2. Delete Student");
-            System.out.println("3. Update Student");
-            System.out.println("4. Lookup Student");
-            System.out.println("5. Exit");
-            System.out.print("Enter your choice: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
-
-            switch (choice) {
-                case 1:
-                    addStudent();
-                    break;
-                case 2:
-                    deleteStudent();
-                    break;
-                case 3:
-                    updateStudent();
-                    break;
-                case 4:
-                    lookupStudent();
-                    break;
-                case 5:
-                    System.out.println("Exiting...");
-                    return;
-                default:
-                    System.out.println("Invalid choice!");
+            if (student.getId().equals(studentID)) {
+                student.setName(name);
+                student.setGpa(gpa);
+                break;
             }
         }
     }
 
-    public static void main(String[] args) {
-        StudentManagementSystem system = new StudentManagementSystem();
-        system.displayMenu();
+    public List<Student> lookupStudent(String studentID, String name, String countryOfResidence) {
+        return students.stream()
+                .filter(s -> (studentID == null || studentID.isEmpty() || s.getId().equals(studentID)))
+                .filter(s -> (name == null || name.isEmpty() || s.getName().equalsIgnoreCase(name)))
+                .filter(s -> (countryOfResidence == null || countryOfResidence.isEmpty()
+                        || (s instanceof InternationalStudent
+                                && ((InternationalStudent) s).getCountryOfOrigin()
+                                        .equalsIgnoreCase(countryOfResidence))))
+                .collect(Collectors.toList()); // Collect all matching students into a list
     }
+
+    public void saveStudentsToFile(String filename) {
+        String fullPath = System.getProperty("user.dir") + "\\data\\" + filename;
+        File file = new File(fullPath);
+
+        file.getParentFile().mkdirs();
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write("ID,Name,Unit,GPA,Type,Country,Details\n");
+            for (Student student : students) {
+                Unit unit = units.stream()
+                        .filter(u -> u.getEnrolledStudents().contains(student))
+                        .findFirst()
+                        .orElse(null);
+
+                String details = unit != null ? unit.getUnitName() + " - " + unit.getLecturer().getName() : "N/A";
+                String type = student instanceof DomesticStudent ? "Domestic" : "International";
+                String country = student instanceof DomesticStudent ? "Australia"
+                        : ((InternationalStudent) student).getCountryOfOrigin();
+
+                writer.write(student.getId() + "," + student.getName() + ","
+                        + (unit != null ? unit.getUnitCode() : "N/A") + ","
+                        + student.getGpa() + "," + type + "," + country + "," + details + "\n");
+            }
+            System.out.println("File saved to: " + file.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadStudentsFromFile(String filename) {
+        String fullPath = System.getProperty("user.dir") + "\\data\\" + filename;
+        File file = new File(fullPath);
+
+        if (!file.exists()) {
+            System.out.println("File not found: " + fullPath);
+            return;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            reader.readLine(); // Skip header
+            while ((line = reader.readLine()) != null) {
+                System.out.println("Read line: " + line);
+                String[] data = line.split(",");
+                if (data.length == 7) {
+                    String studentID = data[0];
+                    String name = data[1];
+                    String unitCode = data[2];
+                    double gpa = Double.parseDouble(data[3]);
+                    String type = data[4];
+                    String country = data[5];
+
+                    Student student;
+                    if (type.equals("Domestic")) {
+                        student = new DomesticStudent(studentID, name, gpa, "N/A");
+                    } else {
+                        student = new InternationalStudent(studentID, name, gpa, country);
+                    }
+
+                    Unit unit = Unit.findUnitByCode(unitCode);
+                    if (unit != null) {
+                        unit.enrollStudent(student);
+                    }
+
+                    students.add(student);
+                    System.out.println("Added student: " + student);
+                } else {
+                    System.out.println("Invalid line: " + line);
+                }
+            }
+            System.out.println("Total students loaded: " + students.size());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public List<Unit> getUnits() {
+        return units;
+    }
+
 }

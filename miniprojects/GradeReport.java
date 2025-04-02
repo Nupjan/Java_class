@@ -16,7 +16,7 @@ public class GradeReport {
         Scanner scan = new Scanner(System.in);
         System.out.print("Enter a numeric grade (0 to 100): ");
         grade = scan.nextInt();
-        category = grade / 10;
+        category = grade / 1;
         System.out.print("That grade is ");
         switch (category) {
             case 10:

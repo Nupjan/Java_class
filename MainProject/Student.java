@@ -1,41 +1,11 @@
 package MainProject;
 
-public class Student {
-    private String studentID;
-    private String name;
-    private String major;
+public class Student extends Person {
     private double gpa;
 
-    public Student(String studentID, String name, String major, double gpa) {
-        this.studentID = studentID;
-        this.name = name;
-        this.major = major;
+    public Student(String studentID, String name, double gpa) {
+        super(studentID, name);
         this.gpa = gpa;
-    }
-
-    // Getters and setters
-    public String getStudentID() {
-        return studentID;
-    }
-
-    public void setStudentID(String studentID) {
-        this.studentID = studentID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getMajor() {
-        return major;
-    }
-
-    public void setMajor(String major) {
-        this.major = major;
     }
 
     public double getGpa() {
@@ -43,6 +13,14 @@ public class Student {
     }
 
     public void setGpa(double gpa) {
+        if (gpa < 0.0 || gpa > 4.0) {
+            throw new IllegalArgumentException("GPA must be between 0.0 and 4.0");
+        }
         this.gpa = gpa;
+    }
+
+    @Override
+    public String getDetails() {
+        return "Student ID: " + getId() + ", Name: " + getName() + ", GPA: " + gpa;
     }
 }
