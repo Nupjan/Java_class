@@ -1,0 +1,26 @@
+ID,Name,Unit,GPA,Type,Country,Details
+101,John Smith,CS101,3.5,Domestic,Australia,Introduction to Computer Science - Dr. Emily Carter
+102,Alice Johnson,MATH101,3.8,International,USA,Calculus I - Prof. James Wilson
+103,Bob Brown,PHYS101,3.2,Domestic,Australia,Physics I - Dr. Sarah Lee
+104,Emily Davis,ENG101,3.9,International,Canada,Introduction to Engineering - Prof. Michael Brown
+105,Michael Wilson,BIO101,3.6,Domestic,Australia,Biology I - Dr. Olivia Davis
+106,Sophia Martinez,CHEM101,3.7,International,USA,Chemistry I - Prof. Daniel Martinez
+107,Daniel Taylor,PSY101,3.4,Domestic,Australia,Introduction to Psychology - Dr. Sophia Taylor
+108,Olivia Anderson,ECON101,3.8,International,India,Principles of Economics - Prof. William Anderson
+109,William Thomas,HIST101,3.1,Domestic,Australia,World History - Dr. Ava Thomas
+110,Ava Garcia,LIT101,3.9,International,USA,Introduction to Literature - Prof. Noah Garcia
+111,James Lee,CS101,3.3,Domestic,Australia,Introduction to Computer Science - Dr. Emily Carter
+112,Mia Rodriguez,MATH101,3.7,International,Canada,Calculus I - Prof. James Wilson
+113,Benjamin Harris,PHYS101,3.5,Domestic,Australia,Physics I - Dr. Sarah Lee
+114,Charlotte Clark,ENG101,3.6,International,India,Introduction to Engineering - Prof. Michael Brown
+115,Henry Lewis,BIO101,3.2,Domestic,Australia,Biology I - Dr. Olivia Davis
+116,Amelia Walker,CHEM101,3.8,International,USA,Chemistry I - Prof. Daniel Martinez
+117,Alexander Hall,PSY101,3.4,Domestic,Australia,Introduction to Psychology - Dr. Sophia Taylor
+118,Harper Young,ECON101,3.9,International,Canada,Principles of Economics - Prof. William Anderson
+119,Lucas Allen,HIST101,3.1,Domestic,Australia,World History - Dr. Ava Thomas
+120,Evelyn King,LIT101,3.7,International,India,Introduction to Literature - Prof. Noah Garcia
+121,Mason Scott,CS101,3.5,Domestic,Australia,Introduction to Computer Science - Dr. Emily Carter
+122,Lily Green,MATH101,3.6,International,USA,Calculus I - Prof. James Wilson
+123,Logan Adams,PHYS101,3.2,Domestic,Australia,Physics I - Dr. Sarah Lee
+124,Chloe Nelson,ENG101,3.8,International,Canada,Introduction to Engineering - Prof. Michael Brown
+125,Jack Carter,BIO101,3.4,Domestic,Australia,Biology I - Dr. Olivia Davis
